@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.npm-cache/
+vite-dev.log
+vite-dev.err.log
+.DS_Store

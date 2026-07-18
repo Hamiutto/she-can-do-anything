@@ -1,0 +1,70 @@
+export const tagPool = [
+  { label: '北京', category: 'city' },
+  { label: '上海', category: 'city' },
+  { label: '西安', category: 'city' },
+  { label: '成都', category: 'city' },
+  { label: '互联网', category: 'industry' },
+  { label: '教育', category: 'industry' },
+  { label: '金融', category: 'industry' },
+  { label: '自由职业', category: 'industry' },
+  { label: '转行', category: 'stage' },
+  { label: '创业', category: 'stage' },
+  { label: 'GAP', category: 'stage' },
+  { label: '留学', category: 'stage' },
+  { label: '育儿', category: 'stage' },
+  { label: '离异重启', category: 'stage' },
+  { label: '职场发展', category: 'help' },
+  { label: '自我成长', category: 'help' },
+  { label: '理财', category: 'help' },
+  { label: '婚恋情感', category: 'help' },
+  { label: '时间管理', category: 'help' },
+  { label: '生存时间', category: 'time' },
+  { label: '赚钱时间', category: 'time' },
+  { label: '好看时间', category: 'time' },
+  { label: '好玩时间', category: 'time' },
+  { label: '心流时间', category: 'time' },
+  { label: '双子座', category: 'zodiac' },
+  { label: '天蝎座', category: 'zodiac' },
+  { label: '摩羯座', category: 'zodiac' },
+  { label: '射手座', category: 'zodiac' },
+  { label: 'INTJ', category: 'mbti' },
+  { label: 'ENFP', category: 'mbti' },
+  { label: 'INFJ', category: 'mbti' },
+  { label: 'ENTP', category: 'mbti' },
+  { label: 'ISFJ', category: 'mbti' },
+  { label: '跳舞', category: 'hobby' },
+  { label: '唱歌', category: 'hobby' },
+  { label: '旅行', category: 'hobby' },
+  { label: '摄影', category: 'hobby' },
+  { label: '写作', category: 'hobby' },
+  { label: '健身', category: 'hobby' },
+  { label: '手作', category: 'hobby' }
+]
+
+export const bubbleSlots = [
+  { x: 22, y: 22 },
+  { x: 72, y: 18 },
+  { x: 52, y: 39 },
+  { x: 28, y: 48 },
+  { x: 78, y: 50 },
+  { x: 18, y: 72 },
+  { x: 58, y: 71 },
+  { x: 82, y: 78 },
+  { x: 13, y: 55 },
+  { x: 43, y: 25 },
+  { x: 68, y: 32 },
+  { x: 42, y: 84 }
+]
+
+export const timeTags = ['生存时间', '赚钱时间', '好看时间', '好玩时间', '心流时间']
+
+export const categoryStyle = {
+  city: '--tag-color: var(--lavender)',
+  industry: '--tag-color: var(--coral)',
+  stage: '--tag-color: var(--green)',
+  help: '--tag-color: var(--orange)',
+  time: '--tag-color: var(--blue)',
+  zodiac: '--tag-color: var(--yellow)',
+  mbti: '--tag-color: var(--lavender)',
+  hobby: '--tag-color: var(--mint)'
+}
