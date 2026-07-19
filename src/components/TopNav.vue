@@ -46,16 +46,17 @@ async function handleLogout() {
 
 <template>
   <header class="topbar">
-    <button class="brand" type="button" @click="goHome">SHE IS <span>____</span></button>
+    <button class="brand" type="button" @click="goHome">她是SHE IS<span>____</span></button>
     <nav class="main-nav" aria-label="主导航">
       <button class="nav-link" :class="{ 'is-active': activeKey === 'sheis' }" type="button" @click="goSheIs">She is</button>
       <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'five-times' }" to="/five-times">五种时间</RouterLink>
-      <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'life-templates' }" to="/life-templates">人生模板</RouterLink>
-      <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'qa-square' }" to="/qa-square">问答广场</RouterLink>
+      <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'life-templates' }" to="/life-templates">人生样本</RouterLink>
+      <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'qa-square' }" to="/qa-square">问问她</RouterLink>
     </nav>
     <div class="nav-actions">
-      <button class="icon-button" type="button" aria-label="消息提醒" @click="isNoticeOpen = !isNoticeOpen">
-        ♡
+      <button class="icon-button notice-button" type="button" aria-label="消息提醒" @click="isNoticeOpen = !isNoticeOpen">
+        <span class="notice-icon">♡</span>
+        <span class="notice-text">消息提醒</span>
         <span v-if="unreadNotificationCount > 0" class="badge-dot">{{ unreadNotificationCount }}</span>
       </button>
 

@@ -83,9 +83,11 @@ watch(selectedTime, () => {
   <section class="page-section section is-active five-times-page">
     <div class="page-card five-times-card">
       <span class="eyebrow">SHE IS ____</span>
-      <h2>五种时间 收获复利人生</h2>
+      <h2>五种时间|收获复利人生</h2>
       <p class="lead">
-        把时间看成可以被感知、分配和复利的生命资源。先了解五种时间的定义，再往下看对应的人生样本。
+        时间管理和规划，不是单选题，是成长的五门必修课。<br>
+        在这里，千万名真实女性的人生样本已经按五种时间分好了类。<br>
+        点开看看，找到世界上你想了解的另一个她……
       </p>
 
       <div class="time-grid time-definition-grid">
@@ -108,8 +110,8 @@ watch(selectedTime, () => {
     <section v-if="selectedTime" ref="timeResultsRef" class="page-card time-results">
       <div class="section-title">
         <div>
-          <h2>{{ selectedTimeInfo?.title }} 的人生模板</h2>
-          <p>当前展示 {{ matchingPeople.length }} 位带有「{{ selectedTimeInfo?.tag }}」标签的样本卡。</p>
+          <h2>{{ selectedTimeInfo?.title }}|的人生活法</h2>
+          <p>在什么时间播种，就在什么时间收获，世界这么大，怎样都精彩</p>
         </div>
 
         <div class="filters">

@@ -1,20 +1,20 @@
 <template>
   <section class="page-section section is-active">
     <div class="page-card">
-      <h2>问答广场</h2>
-      <p class="lead">提问、回答、感谢，都在这里。</p>
+      <h2>问问她</h2>
+      <p class="lead">你的困惑、你的解答、你的感谢、你发出的一点光亮，都在这里。</p>
       <div class="qa-grid">
         <article class="qa-card qa-card--interactive" @click="openModal">
-          <strong>公开提问</strong>
-          <p>关于转行、育儿、GAP 和自我成长的问题，点击提交你的问题。</p>
+          <strong>我想问问</strong>
+          <p>关于你想知道的一切、辞职、婚姻、生育，看看过来人怎么说？</p>
         </article>
         <article class="qa-card qa-card--interactive" @click="goAnswer">
-          <strong>回答问题</strong>
-          <p>分享你的真实经历，不追求完美模板。</p>
+          <strong>我来解答</strong>
+          <p>你的真实经历和感悟，是别人成长的阶梯和一扇窗。</p>
         </article>
         <article class="qa-card">
-          <strong>感谢信</strong>
-          <p>当一次回应真的帮到一个人，感谢会被温柔地记录下来。</p>
+          <strong>我想感谢</strong>
+          <p>爱出者爱返，福往者福来。</p>
         </article>
       </div>
     </div>
