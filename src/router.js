@@ -10,7 +10,8 @@ const router = createRouter({
     { path: '/', name: 'home', component: HomePage },
     { path: '/five-times', name: 'five-times', component: FiveTimesPage },
     { path: '/life-templates', name: 'life-templates', component: LifeTemplatesPage },
-    { path: '/qa-square', name: 'qa-square', component: QaSquarePage }
+    { path: '/qa-square', name: 'qa-square', component: QaSquarePage },
+    { path: '/particle', name: 'particle', component: () => import('./pages/ParticlePage.vue') }
   ],
   scrollBehavior(to) {
     if (to.hash) return { el: to.hash, behavior: 'smooth' }
