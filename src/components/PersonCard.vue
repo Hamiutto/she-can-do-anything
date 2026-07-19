@@ -11,7 +11,7 @@ const props = defineProps({
 const emit = defineEmits(['open', 'toast'])
 const saved = ref(false)
 
-const displayTags = computed(() => [...props.person.tags, ...props.person.hobbyTags].slice(0, 5))
+const displayTags = computed(() => [...props.person.timeLabels || props.person.tags, ...props.person.hobbyTags].slice(0, 5))
 
 function miniTagStyle(label) {
   const category = tagPool.find((tag) => tag.label === label)?.category

@@ -2,6 +2,15 @@ function normalizeText(value) {
   return String(value ?? '').trim().toLowerCase()
 }
 
+// 五种时间中英文映射
+const TIME_TYPE_MAP = {
+  '生存时间': 'survival',
+  '赚钱时间': 'earning',
+  '好看时间': 'beauty',
+  '好玩时间': 'fun',
+  '心流时间': 'flow',
+}
+
 function splitSearchQuery(query) {
   if (Array.isArray(query)) {
     return query.map(normalizeText).filter(Boolean)
@@ -37,14 +46,20 @@ export function parseSearchQuery(query) {
 export function matchesTag(person, tag) {
   if (!tag) return true
   const normalized = normalizeText(tag)
+
+  // 如果是时间类型标签，同时匹配中文和英文 key
+  const englishKey = TIME_TYPE_MAP[normalized]
+  const searchValues = englishKey ? [normalized, englishKey] : [normalized]
+
   return [
     person.city,
     person.industry,
     person.mbti,
     person.zodiac,
     ...person.tags,
-    ...person.hobbyTags
-  ].some((value) => normalizeText(value) === normalized)
+    ...person.hobbyTags,
+    ...(person.timeLabels || []),
+  ].some((value) => searchValues.includes(normalizeText(value)))
 }
 
 export function matchesKeyword(person, keyword) {

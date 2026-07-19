@@ -82,8 +82,8 @@ onMounted(async () => {
 
       <!-- Tags -->
       <div class="profile-section-block">
-        <div v-if="user.timeTags && user.timeTags.length" class="profile-tags">
-          <span v-for="t in user.timeTags" :key="t" class="time-badge">
+        <div v-if="user.timeLabels && user.timeLabels.length" class="profile-tags">
+          <span v-for="t in user.timeLabels" :key="t" class="time-badge">
             {{ timeTypeConfig[t]?.emoji }}{{ timeTypeConfig[t]?.label }}
           </span>
         </div>

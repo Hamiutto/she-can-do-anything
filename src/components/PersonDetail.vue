@@ -24,7 +24,7 @@ function miniTagStyle(label) {
         <div class="meta">{{ person.role }} · {{ person.city }} · {{ person.age }}岁 · {{ person.industry }} · {{ person.mbti }} · {{ person.zodiac }}</div>
         <p class="tagline">“{{ person.tagline }}”</p>
         <div class="mini-tags detail-tags">
-          <span v-for="tag in [...person.tags, ...person.hobbyTags]" :key="tag" class="mini-tag" :style="miniTagStyle(tag)">{{ tag }}</span>
+          <span v-for="tag in [...(person.timeLabels || person.tags), ...person.hobbyTags]" :key="tag" class="mini-tag" :style="miniTagStyle(tag)">{{ tag }}</span>
         </div>
       </div>
       <section class="story-section">

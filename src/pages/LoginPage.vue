@@ -13,8 +13,13 @@ const password = ref('')
 const nickname = ref('')
 const errorMsg = ref('')
 const submitting = ref(false)
+const agreed = ref(false)
 
 async function handleSubmit() {
+  if (!agreed.value) {
+    errorMsg.value = '请先阅读并同意用户协议和隐私政策'
+    return
+  }
   errorMsg.value = ''
   submitting.value = true
 
@@ -41,6 +46,7 @@ function toggleMode() {
   email.value = ''
   password.value = ''
   nickname.value = ''
+  agreed.value = false
 }
 </script>
 
@@ -92,12 +98,25 @@ function toggleMode() {
           />
         </div>
 
+        <div class="form-group consent-group">
+          <label class="consent-label">
+            <input v-model="agreed" type="checkbox" />
+            <span>
+              我已阅读并同意
+              <a class="consent-link" href="#" @click.prevent>《用户协议》</a>
+              和
+              <a class="consent-link" href="#" @click.prevent>《隐私政策》</a>
+              ，知晓我的邮箱和密码将被安全存储。
+            </span>
+          </label>
+        </div>
+
         <p v-if="errorMsg" class="error-msg">{{ errorMsg }}</p>
 
         <button
           class="primary-button login-submit"
           type="submit"
-          :disabled="submitting || state.loading"
+          :disabled="!agreed || submitting || state.loading"
         >
           {{ submitting || state.loading ? '处理中…' : (isLoginMode ? '登录' : '注册') }}
         </button>
@@ -242,5 +261,37 @@ function toggleMode() {
 
 .back-link:hover {
   color: var(--lavender);
+}
+
+.consent-group {
+  margin-top: 4px;
+}
+
+.consent-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: rgba(45, 52, 54, 0.55);
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.consent-label input[type="checkbox"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: var(--lavender, #6c5ce7);
+  width: 14px;
+  height: 14px;
+}
+
+.consent-link {
+  color: var(--lavender, #6c5ce7);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.consent-link:hover {
+  color: var(--ink, #2d3436);
 }
 </style>
