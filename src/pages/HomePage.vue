@@ -80,7 +80,7 @@ watch(() => route.hash, scrollIfNeeded)
   <section class="section" id="results">
     <div class="section-title">
       <div>
-        <h2>找到现实中的她</h2>
+        <h2>链接现实中的她：<br>看看你好奇的她都是谁？</h2>
         <p>{{ selectedTags.length ? `当前筛选：${selectedTags.join('、')}。命中任一标签即可展示，命中越多越靠前。` : '默认动态展示人物样本，每次最多 6 张。选择标签后，这里会自动刷新为匹配人物。' }}</p>
       </div>
       <div class="filters">
