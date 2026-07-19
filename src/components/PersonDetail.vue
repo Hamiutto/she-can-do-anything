@@ -49,7 +49,7 @@ function miniTagStyle(label) {
         </div>
       </section>
       <div class="ask-button-wrap">
-        <button class="ask-button" type="button" @click="emit('ask', person)"></button>
+        <button class="ask-button" type="button" @click="emit('ask', person)">向她提问</button>
       </div>
     </div>
   </section>
