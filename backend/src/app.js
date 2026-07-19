@@ -1,8 +1,12 @@
 import { createServer } from 'node:http'
 import { URL } from 'node:url'
 import { initDb, getDb } from './db/database.js'
+import { initUsersDb } from './db/users.js'
 import { answerQuestion, createQuestion, getQuestionWithAnswers, listPendingQuestions } from './routes/questions.js'
 import { listNotifications, markNotificationRead } from './routes/notifications.js'
+import { handleRegister, handleLogin, handleMe, handleLogout } from './routes/auth.js'
+import { handleGetProfile, handleUpdateProfile, handleGetPublicProfile } from './routes/profile.js'
+import { verifyToken } from './middleware/auth.js'
 
 const PORT = Number(process.env.PORT || 3001)
 
@@ -10,8 +14,8 @@ function sendJson(res, statusCode, payload) {
   res.writeHead(statusCode, {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,OPTIONS',
   })
   res.end(JSON.stringify(payload))
 }
@@ -54,7 +58,15 @@ function extractId(parts) {
   return Number.isFinite(id) ? id : null
 }
 
+function extractAuthUser(req) {
+  const header = req.headers.authorization || ''
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null
+  if (!token) return null
+  return verifyToken(token)
+}
+
 await initDb()
+await initUsersDb()
 
 const server = createServer(async (req, res) => {
   if (req.method === 'OPTIONS') {
@@ -67,6 +79,7 @@ const server = createServer(async (req, res) => {
   const db = getDb()
 
   try {
+    // Health check
     if (req.method === 'GET' && url.pathname === '/api/health') {
       sendJson(res, 200, { status: 'ok', timestamp: new Date().toISOString() })
       return
@@ -77,6 +90,54 @@ const server = createServer(async (req, res) => {
       return
     }
 
+    // ── Auth routes ──
+    if (parts[1] === 'auth') {
+      const body = await readJsonBody(req)
+
+      if (req.method === 'POST' && parts[2] === 'register') {
+        await handleRegister((status, payload) => sendJson(res, status, payload), body)
+        return
+      }
+
+      if (req.method === 'POST' && parts[2] === 'login') {
+        await handleLogin((status, payload) => sendJson(res, status, payload), body)
+        return
+      }
+
+      if (req.method === 'GET' && parts[2] === 'me') {
+        const user = extractAuthUser(req)
+        handleMe((status, payload) => sendJson(res, status, payload), user)
+        return
+      }
+
+      if (req.method === 'POST' && parts[2] === 'logout') {
+        handleLogout((status, payload) => sendJson(res, status, payload))
+        return
+      }
+    }
+
+    // ── Profile routes ──
+    if (parts[1] === 'profile') {
+      if (req.method === 'GET' && parts.length === 2) {
+        const user = extractAuthUser(req)
+        handleGetProfile((status, payload) => sendJson(res, status, payload), user)
+        return
+      }
+
+      if (req.method === 'PUT' && parts.length === 2) {
+        const user = extractAuthUser(req)
+        const body = await readJsonBody(req)
+        await handleUpdateProfile((status, payload) => sendJson(res, status, payload), body, user)
+        return
+      }
+
+      if (req.method === 'GET' && parts.length === 3) {
+        handleGetPublicProfile((status, payload) => sendJson(res, status, payload), parts[2])
+        return
+      }
+    }
+
+    // ── Questions routes ──
     if (parts[1] === 'questions') {
       if (req.method === 'GET' && parts.length === 2) {
         sendJson(res, 200, listPendingQuestions(db))
@@ -95,6 +156,12 @@ const server = createServer(async (req, res) => {
 
       if (req.method === 'POST' && parts.length === 2) {
         const body = await readJsonBody(req)
+        const user = extractAuthUser(req)
+        // Enrich with user info if logged in
+        if (user) {
+          body.user_id = user.userId
+          body.author = user.nickname || body.author || '匿名用户'
+        }
         const result = createQuestion(db, body)
         if (result?.error) {
           sendJson(res, result.status || 400, { error: result.error })
@@ -106,6 +173,11 @@ const server = createServer(async (req, res) => {
 
       if (req.method === 'POST' && parts.length === 4 && parts[3] === 'answer') {
         const body = await readJsonBody(req)
+        const user = extractAuthUser(req)
+        if (user) {
+          body.user_id = user.userId
+          body.author = user.nickname || body.author || '匿名用户'
+        }
         const result = answerQuestion(db, extractId(parts), body)
         if (result?.error) {
           sendJson(res, result.status || 400, { error: result.error })
@@ -119,6 +191,7 @@ const server = createServer(async (req, res) => {
       return
     }
 
+    // ── Notifications routes ──
     if (parts[1] === 'notifications') {
       if (req.method === 'GET' && parts.length === 3) {
         sendJson(res, 200, listNotifications(db, decodeURIComponent(parts[2])))

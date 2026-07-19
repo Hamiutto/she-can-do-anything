@@ -80,8 +80,10 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { useAuth } from '../composables/useAuth'
 
 const router = useRouter()
+const { state: authState } = useAuth()
 
 // Modal state
 const showModal = ref(false)
@@ -105,7 +107,8 @@ const timeTypes = [
 
 function openModal() {
   showModal.value = true
-  nickname.value = ''
+  // Pre-fill nickname if logged in
+  nickname.value = authState.user?.nickname || ''
   question.value = ''
   timeType.value = '心流'
   errorMsg.value = ''
@@ -125,11 +128,15 @@ async function submitQuestion() {
   errorMsg.value = ''
 
   try {
+    const headers = {}
+    if (authState.token) {
+      headers.Authorization = `Bearer ${authState.token}`
+    }
     await axios.post('/api/questions', {
       content: question.value.trim(),
-      author: nickname.value.trim() || '匿名用户',
+      author: nickname.value.trim() || (authState.user?.nickname) || '匿名用户',
       time_type: timeType.value,
-    })
+    }, { headers })
     showToast.value = true
     toastMsg.value = '问题已提交成功！'
     setTimeout(() => {
@@ -137,7 +144,7 @@ async function submitQuestion() {
       closeModal()
     }, 1500)
   } catch (err) {
-    errorMsg.value = err.response?.data?.message || '提交失败，请稍后重试'
+    errorMsg.value = err.response?.data?.error || err.response?.data?.message || '提交失败，请稍后重试'
   } finally {
     isSubmitting.value = false
   }

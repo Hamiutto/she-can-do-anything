@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "1365048839@qq.com",
+      "password_hash": "7e81f28d1fb1584cefbadd91de677e47:ee1f06400dc84a71c22bdad9b0d4d7c873b1d26be21dce12aaf8cdd801e97801f744fd3b50c1fbc834519b993a72bd9137d9d9abe974ff97b4f5c9428df098e8",
+      "nickname": "LLLei",
+      "city": "北京",
+      "age": 23,
+      "education": "硕士",
+      "industry": "计算机",
+      "marriage": "未婚",
+      "tagline": "1111",
+      "lifeStory": "1111",
+      "canHelp": "111",
+      "expertise": "111",
+      "referrer": "111",
+      "timeTags": [
+        "fun"
+      ],
+      "hobbies": [
+        "跑步",
+        "阅读"
+      ],
+      "mbti": "ENFP",
+      "created_at": "2026-07-19T07:20:53.713Z",
+      "updated_at": "2026-07-19T07:24:31.699Z"
+    }
+  ],
+  "nextIds": {
+    "users": 2
+  }
+}

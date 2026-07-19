@@ -22,6 +22,7 @@ export function createQuestion(db, payload) {
   const content = String(payload?.content || '').trim()
   const author = String(payload?.author || '').trim()
   const timeType = validTimeTypes.includes(payload?.time_type) ? payload.time_type : 'fun'
+  const userId = payload?.user_id ? Number(payload.user_id) : null
 
   if (!content) {
     return { status: 400, error: 'Content is required' }
@@ -36,9 +37,9 @@ export function createQuestion(db, payload) {
 
   const result = db
     .prepare(
-      'INSERT INTO questions (content, author, time_type, particle_x, particle_y, color) VALUES (?, ?, ?, ?, ?, ?)'
+      'INSERT INTO questions (content, author, time_type, particle_x, particle_y, color, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)'
     )
-    .run(content, author, timeType, px, py, color)
+    .run(content, author, timeType, px, py, color, userId)
 
   return getQuestionWithAnswers(db, result.lastInsertRowid)
 }
@@ -46,6 +47,7 @@ export function createQuestion(db, payload) {
 export function answerQuestion(db, id, payload) {
   const content = String(payload?.content || '').trim()
   const author = String(payload?.author || '').trim()
+  const userId = payload?.user_id ? Number(payload.user_id) : null
 
   if (!content) {
     return { status: 400, error: 'Content is required' }
@@ -66,8 +68,8 @@ export function answerQuestion(db, id, payload) {
 
   db.transaction(() => {
     const answerResult = db
-      .prepare('INSERT INTO answers (question_id, content, author) VALUES (?, ?, ?)')
-      .run(questionId, content, author)
+      .prepare('INSERT INTO answers (question_id, content, author, user_id) VALUES (?, ?, ?, ?)')
+      .run(questionId, content, author, userId)
 
     db.prepare("UPDATE questions SET status = 'answered' WHERE id = ?").run(questionId)
 

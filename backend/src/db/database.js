@@ -191,7 +191,7 @@ function run(sql, params = []) {
   const values = unwrapParams(params)
 
   if (normalized.startsWith('insert into questions')) {
-    const [content, author, timeType, particleX, particleY, color] = values
+    const [content, author, timeType, particleX, particleY, color, userId] = values
     const question = {
       id: data.nextIds.questions++,
       content: String(content).trim(),
@@ -201,6 +201,7 @@ function run(sql, params = []) {
       particle_x: Number(particleX),
       particle_y: Number(particleY),
       color: String(color),
+      user_id: userId ? Number(userId) : null,
       created_at: nowIso(),
     }
     data.questions.push(question)
@@ -212,12 +213,13 @@ function run(sql, params = []) {
   }
 
   if (normalized.startsWith('insert into answers')) {
-    const [questionId, content, author] = values
+    const [questionId, content, author, userId] = values
     const answer = {
       id: data.nextIds.answers++,
       question_id: Number(questionId),
       content: String(content).trim(),
       author: String(author).trim(),
+      user_id: userId ? Number(userId) : null,
       created_at: nowIso(),
     }
     data.answers.push(answer)
