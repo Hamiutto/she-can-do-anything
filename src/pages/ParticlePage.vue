@@ -60,7 +60,9 @@ function onSubmitAnswer(answerText) {
       questions.value = questions.value.filter(q => q.id !== selectedQuestion.value.id)
       closeModal()
     })
-    .catch(err => console.error('Answer submission failed:', err))
+    .catch(err => {
+      showToast(err.response?.data?.error || err.response?.data?.message || '回答提交失败，请稍后重试')
+    })
 }
 
 function closeModal() {

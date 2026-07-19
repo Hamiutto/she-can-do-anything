@@ -7,6 +7,7 @@ const emit = defineEmits(['toast'])
 const route = useRoute()
 const router = useRouter()
 const isNoticeOpen = ref(false)
+const unreadNotificationCount = ref(0)
 
 const activeKey = computed(() => {
   if (route.path === '/five-times') return 'five-times'
@@ -40,10 +41,14 @@ function goHome() {
     <div class="nav-actions">
       <button class="icon-button" type="button" aria-label="消息提醒" @click="isNoticeOpen = !isNoticeOpen">
         ♡
-        <span class="badge-dot">3</span>
+        <span v-if="unreadNotificationCount > 0" class="badge-dot">{{ unreadNotificationCount }}</span>
       </button>
       <button class="pill-button" type="button" @click="emit('toast', '这里会进入登录流程，Vue 版先用提示模拟。')">登录</button>
-      <NotificationDropdown :open="isNoticeOpen" />
+      <NotificationDropdown
+        :open="isNoticeOpen"
+        user-name="匿名用户"
+        @unread-change="unreadNotificationCount = $event"
+      />
     </div>
   </header>
 </template>

@@ -143,13 +143,14 @@ a { text-decoration: none; }
   right: -2px;
   display: grid;
   place-items: center;
-  width: 20px;
+  min-width: 20px;
   height: 20px;
   border-radius: 50%;
   background: var(--coral);
   color: white;
   font-size: 12px;
   font-weight: 700;
+  padding: 0 4px;
   border: 2px solid #fffaf6;
 }
 

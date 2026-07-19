@@ -1,5 +1,15 @@
 import axios from 'axios'
 
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response?.data?.error && !error.response.data.message) {
+      error.response.data.message = error.response.data.error
+    }
+    return Promise.reject(error)
+  }
+)
+
 const api = axios.create({
   baseURL: '/api',
   timeout: 10000,
