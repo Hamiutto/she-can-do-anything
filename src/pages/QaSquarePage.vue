@@ -19,54 +19,80 @@
       </div>
     </div>
 
-    <!-- Question submission modal -->
-    <div v-if="showModal" class="modal-backdrop" @click.self="closeModal">
-      <div class="modal-dialog">
-        <button class="modal-close" @click="closeModal" aria-label="关闭">&times;</button>
-        <h3 class="modal-title">公开提问</h3>
+    <!-- Question submission modal (no gray backdrop) -->
+    <Teleport to="body">
+      <Transition name="slide-up">
+        <div v-if="showModal" class="qa-modal" @click.self="closeModal">
+          <div class="qa-modal-dialog">
+            <button class="modal-close" @click="closeModal" aria-label="关闭">&times;</button>
+            <h3 class="modal-title">公开提问</h3>
 
-        <label class="form-label">昵称（可选）</label>
-        <input
-          v-model="nickname"
-          class="form-input"
-          type="text"
-          placeholder="默认为匿名用户"
-          maxlength="50"
-        />
+            <label class="form-label">昵称（可选）</label>
+            <input
+              v-model="nickname"
+              class="form-input"
+              type="text"
+              placeholder="默认为匿名用户"
+              maxlength="50"
+            />
 
-        <label class="form-label">你的问题</label>
-        <textarea
-          v-model="question"
-          class="form-textarea"
-          placeholder="写下你想问的问题……"
-          maxlength="500"
-          rows="4"
-        ></textarea>
-        <div class="char-count">{{ question.length }}/500</div>
+            <label class="form-label">你的问题</label>
+            <textarea
+              v-model="question"
+              class="form-textarea"
+              placeholder="写下你想问的问题……"
+              maxlength="500"
+              rows="4"
+            ></textarea>
+            <div class="char-count">{{ question.length }}/500</div>
 
-        <label class="form-label">时间类型</label>
-        <div class="time-type-group">
-          <button
-            v-for="t in timeTypes"
-            :key="t.value"
-            :class="['time-type-btn', { active: timeType === t.value }]"
-            @click="timeType = t.value"
-            type="button"
-          >
-            {{ t.emoji }}{{ t.label }}
-          </button>
+            <label class="form-label">时间类型</label>
+            <div class="time-type-group">
+              <button
+                v-for="t in timeTypes"
+                :key="t.value"
+                :class="['time-type-btn', { active: timeType === t.value }]"
+                @click="timeType = t.value"
+                type="button"
+              >
+                {{ t.emoji }}{{ t.label }}
+              </button>
+            </div>
+
+            <p v-if="errorMsg" class="error-msg">{{ errorMsg }}</p>
+
+            <button
+              ref="submitBtnRef"
+              class="primary-button submit-btn"
+              :disabled="isSubmitting || !question.trim()"
+              @click="submitQuestion"
+            >
+              {{ isSubmitting ? '提交中…' : '提交问题' }}
+            </button>
+
+            <p v-if="!authState.isLoggedIn" class="login-hint">
+              登录后问题将关联你的账号，
+              <RouterLink class="hint-link" to="/login">去登录</RouterLink>
+            </p>
+          </div>
         </div>
+      </Transition>
+    </Teleport>
 
-        <p v-if="errorMsg" class="error-msg">{{ errorMsg }}</p>
-
-        <button
-          class="primary-button submit-btn"
-          :disabled="isSubmitting || !question.trim()"
-          @click="submitQuestion"
-        >
-          {{ isSubmitting ? '提交中…' : '提交问题' }}
-        </button>
-      </div>
+    <!-- Shatter burst particles -->
+    <div class="burst-layer">
+      <span
+        v-for="p in burstParticles"
+        :key="p.id"
+        class="burst-particle"
+        :style="{
+          left: p.x + 'px',
+          top: p.y + 'px',
+          background: p.color,
+          '--tx': p.tx + 'px',
+          '--ty': p.ty + 'px',
+        }"
+      ></span>
     </div>
 
     <!-- Toast notification -->
@@ -89,28 +115,50 @@ const { state: authState } = useAuth()
 const showModal = ref(false)
 const nickname = ref('')
 const question = ref('')
-const timeType = ref('心流')
+const timeType = ref('flow')
 const isSubmitting = ref(false)
 const errorMsg = ref('')
+const submitBtnRef = ref(null)
 
 // Toast state
 const showToast = ref(false)
 const toastMsg = ref('')
 
+// Shatter burst particles
+const burstParticles = ref([])
+let particleId = 0
+
+function triggerBurst(x, y) {
+  const particles = []
+  const color = '#6c5ce7'
+  for (let i = 0; i < 12; i++) {
+    const angle = (Math.PI * 2 / 12) * i + (Math.random() - 0.5) * 0.3
+    const speed = 60 + Math.random() * 80
+    particles.push({
+      id: particleId++,
+      x, y,
+      tx: Math.cos(angle) * speed,
+      ty: Math.sin(angle) * speed,
+      color,
+    })
+  }
+  burstParticles.value = particles
+  setTimeout(() => { burstParticles.value = [] }, 650)
+}
+
 const timeTypes = [
-  { emoji: '💪', label: '生存', value: '生存' },
-  { emoji: '💰', label: '赚钱', value: '赚钱' },
-  { emoji: '💄', label: '好看', value: '好看' },
-  { emoji: '🎮', label: '好玩', value: '好玩' },
-  { emoji: '🎵', label: '心流', value: '心流' },
+  { emoji: '💪', label: '生存', value: 'survival' },
+  { emoji: '💰', label: '赚钱', value: 'earning' },
+  { emoji: '💄', label: '好看', value: 'beauty' },
+  { emoji: '🎮', label: '好玩', value: 'fun' },
+  { emoji: '🎵', label: '心流', value: 'flow' },
 ]
 
 function openModal() {
   showModal.value = true
-  // Pre-fill nickname if logged in
   nickname.value = authState.user?.nickname || ''
   question.value = ''
-  timeType.value = '心流'
+  timeType.value = 'flow'
   errorMsg.value = ''
 }
 
@@ -137,8 +185,16 @@ async function submitQuestion() {
       author: nickname.value.trim() || (authState.user?.nickname) || '匿名用户',
       time_type: timeType.value,
     }, { headers })
+
+    // Trigger shatter burst effect at submit button position
+    const btn = submitBtnRef.value
+    if (btn) {
+      const rect = btn.getBoundingClientRect()
+      triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2)
+    }
+
     showToast.value = true
-    toastMsg.value = '问题已提交成功！'
+    toastMsg.value = '问题已提交成功！✨'
     setTimeout(() => {
       showToast.value = false
       closeModal()
@@ -152,26 +208,44 @@ async function submitQuestion() {
 </script>
 
 <style scoped>
-.modal-backdrop {
+/* Modal overlay — no gray backdrop */
+.qa-modal {
   position: fixed;
   inset: 0;
-  background: rgba(45, 52, 54, 0.24);
-  backdrop-filter: blur(4px);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  pointer-events: auto;
+  /* no background → page stays visible */
 }
 
-.modal-dialog {
+.qa-modal-dialog {
   background: var(--paper, #fff);
   color: var(--ink, #2d3436);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 32px 28px 28px;
   width: 90%;
   max-width: 480px;
   position: relative;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+/* Slide-up transition */
+.slide-up-enter-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.slide-up-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+}
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
 }
 
 .modal-close {
@@ -315,5 +389,50 @@ async function submitQuestion() {
 .toast-leave-to {
   opacity: 0;
   transform: translateX(-50%) translateY(8px);
+}
+
+.login-hint {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: rgba(45, 52, 54, 0.45);
+}
+
+.hint-link {
+  color: var(--lavender, #8b7ec8);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.hint-link:hover {
+  color: var(--ink, #2d3436);
+}
+
+/* Shatter burst particles */
+.burst-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2000;
+}
+
+.burst-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: burstOut 0.6s ease-out forwards;
+}
+
+@keyframes burstOut {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
+    opacity: 0;
+  }
 }
 </style>

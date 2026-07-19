@@ -164,13 +164,58 @@
       "particle_y": 0.65,
       "color": "#C9B1FF",
       "created_at": "2026-07-19T04:37:09.445Z"
+    },
+    {
+      "id": 16,
+      "content": "30岁会财富自由吗？",
+      "author": "LLLei",
+      "status": "answered",
+      "time_type": "earning",
+      "particle_x": 0.335,
+      "particle_y": 0.473,
+      "color": "#FFB5A7",
+      "user_id": 1,
+      "created_at": "2026-07-19T08:47:50.195Z"
+    },
+    {
+      "id": 17,
+      "content": "如何找到人生中第一份工作？",
+      "author": "LLLei",
+      "status": "pending",
+      "time_type": "earning",
+      "particle_x": 0.333,
+      "particle_y": 0.628,
+      "color": "#FFD6A5",
+      "user_id": 1,
+      "created_at": "2026-07-19T09:03:09.243Z"
     }
   ],
-  "answers": [],
-  "notifications": [],
+  "answers": [
+    {
+      "id": 1,
+      "question_id": 16,
+      "content": "需要不断地积累🙌",
+      "author": "LLLei",
+      "user_id": 1,
+      "created_at": "2026-07-19T09:04:08.598Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "user_name": "LLLei",
+      "type": "answer",
+      "title": "LLLei 回答了你的问题",
+      "message": "需要不断地积累🙌",
+      "question_id": 16,
+      "answer_id": 1,
+      "is_read": 0,
+      "created_at": "2026-07-19T09:04:08.598Z"
+    }
+  ],
   "nextIds": {
-    "questions": 16,
-    "answers": 1,
-    "notifications": 1
+    "questions": 18,
+    "answers": 2,
+    "notifications": 2
   }
 }
