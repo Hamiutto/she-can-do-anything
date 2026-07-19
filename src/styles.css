@@ -1107,7 +1107,7 @@ h1 .accent,
 .template-toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-end;
   justify-content: space-between;
   margin: 22px 0 20px;
@@ -1115,8 +1115,18 @@ h1 .accent,
 
 .template-search {
   position: relative;
-  flex: 1 1 420px;
-  max-width: 560px;
+  display: flex;
+  flex: 1 1 520px;
+  align-items: center;
+  gap: 10px;
+  max-width: 680px;
+  min-width: 0;
+}
+
+.template-search-field {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .template-search input {
@@ -1124,7 +1134,7 @@ h1 .accent,
   border: 1px solid var(--line);
   border-radius: 999px;
   background: rgba(255, 255, 255, .82);
-  padding: 14px 46px 14px 18px;
+  padding: 14px 48px 14px 18px;
   outline: none;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8);
 }
@@ -1138,23 +1148,89 @@ h1 .accent,
   position: absolute;
   right: 12px;
   top: 50%;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border: 0;
   border-radius: 50%;
   background: rgba(108, 92, 231, .10);
   color: var(--lavender);
   transform: translateY(-50%);
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
+}
+
+.template-search-submit {
+  flex: 0 0 auto;
+  min-width: 88px;
+  height: 48px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--lavender);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 12px 28px rgba(108, 92, 231, .18);
+  transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+}
+
+.template-search-submit:hover {
+  transform: translateY(-2px);
+  background: #5a4bd4;
+  box-shadow: 0 16px 34px rgba(108, 92, 231, .22);
 }
 
 .template-toolbar-actions {
   display: flex;
   flex: 0 1 auto;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
+}
+
+.template-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .74);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8);
+}
+
+.template-sort span {
+  color: rgba(45, 52, 54, .60);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.template-sort-select {
+  position: relative;
+  min-width: 128px;
+}
+
+.template-sort-select::after {
+  content: "⌄";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-52%);
+  pointer-events: none;
+  color: var(--lavender);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.template-sort-select select {
+  width: 100%;
+  min-height: 24px;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  padding: 0 22px 0 0;
+  color: var(--ink);
+  font-weight: 800;
+  outline: none;
 }
 
 .template-summary {

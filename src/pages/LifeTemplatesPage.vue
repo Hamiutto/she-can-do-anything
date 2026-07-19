@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import PersonDetail from '../components/PersonDetail.vue'
 import PersonGrid from '../components/PersonGrid.vue'
 import { people } from '../data/people'
-import { getSearchableText, sortPeople } from '../utils/peopleFilters'
+import { matchesSearchQuery, parseSearchQuery, sortPeople } from '../utils/peopleFilters'
 
 const emit = defineEmits(['toast', 'ask-person'])
 const route = useRoute()
@@ -20,28 +20,24 @@ const initialSearch = (() => {
   const tag = String(route.query.tag || '').trim()
   if (tag) return tag
 
-  const tags = String(route.query.tags || '')
-    .split(',')
-    .map((item) => item.trim())
-    .filter(Boolean)
-  return tags[0] || ''
+  return String(route.query.tags || '').trim()
 })()
 
-const searchTerm = ref(initialSearch)
+const searchDraft = ref(initialSearch)
+const searchQuery = ref(initialSearch)
+const searchTokens = computed(() => parseSearchQuery(searchQuery.value))
 
 const filteredPeople = computed(() => {
-  const query = searchTerm.value.trim().toLowerCase()
   let list = people
 
-  if (query) {
-    list = list.filter((person) => getSearchableText(person).includes(query))
+  if (searchTokens.value.length) {
+    list = list.filter((person) => matchesSearchQuery(person, searchTokens.value))
   }
 
-  return sortPeople(list, sortMode.value, query)
+  return sortPeople(list, sortMode.value, searchTokens.value)
 })
 
 const totalPages = computed(() => Math.max(1, Math.ceil(filteredPeople.value.length / pageSize)))
-
 const safePage = computed(() => Math.min(currentPage.value, totalPages.value))
 
 const paginatedPeople = computed(() => {
@@ -51,15 +47,21 @@ const paginatedPeople = computed(() => {
 
 const summaryText = computed(() => {
   const count = filteredPeople.value.length
-  const query = searchTerm.value.trim()
-  if (query) {
+  if (searchTokens.value.length) {
     return `找到 ${count} 位样本，第 ${safePage.value} / ${totalPages.value} 页`
   }
   return `当前展示全部 ${count} 位样本，第 ${safePage.value} / ${totalPages.value} 页`
 })
 
+function applySearch() {
+  searchQuery.value = searchDraft.value.trim()
+  currentPage.value = 1
+}
+
 function clearSearch() {
-  searchTerm.value = ''
+  searchDraft.value = ''
+  searchQuery.value = ''
+  currentPage.value = 1
 }
 
 async function openPerson(person) {
@@ -72,7 +74,7 @@ function goPage(page) {
   currentPage.value = Math.max(1, Math.min(page, totalPages.value))
 }
 
-watch([searchTerm, sortMode], () => {
+watch([searchQuery, sortMode], () => {
   currentPage.value = 1
   selectedPerson.value = null
 })
@@ -99,30 +101,39 @@ watch(filteredPeople, () => {
       </div>
 
       <div class="template-toolbar">
-        <form class="template-search" @submit.prevent="currentPage = 1">
-          <input
-            v-model="searchTerm"
-            type="search"
-            placeholder="搜索昵称、城市、行业、MBTI、标签、故事..."
-            aria-label="搜索人生模板"
-          >
-          <button
-            v-if="searchTerm"
-            class="template-search-clear"
-            type="button"
-            aria-label="清空搜索"
-            @click="clearSearch"
-          >
-            ×
-          </button>
+        <form class="template-search" @submit.prevent="applySearch">
+          <div class="template-search-field">
+            <input
+              v-model="searchDraft"
+              type="search"
+              placeholder="搜索昵称、城市、行业、MBTI、标签、故事..."
+              aria-label="搜索人生模板"
+            >
+            <button
+              v-if="searchDraft || searchQuery"
+              class="template-search-clear"
+              type="button"
+              aria-label="清空搜索"
+              @click="clearSearch"
+            >
+              ×
+            </button>
+          </div>
+
+          <button class="template-search-submit" type="submit">搜索</button>
         </form>
 
         <div class="template-toolbar-actions">
-          <select v-model="sortMode" aria-label="排序方式">
-            <option value="match">按匹配度</option>
-            <option value="complete">按资料完整度</option>
-            <option value="helped">按帮助人数</option>
-          </select>
+          <label class="template-sort">
+            <span>排序</span>
+            <div class="template-sort-select">
+              <select v-model="sortMode" aria-label="排序方式">
+                <option value="match">按匹配度</option>
+                <option value="complete">按资料完整度</option>
+                <option value="helped">按帮助人数</option>
+              </select>
+            </div>
+          </label>
           <div class="template-summary">{{ summaryText }}</div>
         </div>
       </div>
