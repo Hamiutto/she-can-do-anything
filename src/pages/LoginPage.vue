@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import SiteDisclaimer from '../components/SiteDisclaimer.vue'
 import { useAuth } from '../composables/useAuth'
 
 const router = useRouter()
@@ -132,6 +133,7 @@ function toggleMode() {
         <RouterLink class="back-link" to="/">← 返回首页</RouterLink>
       </div>
     </div>
+    <SiteDisclaimer class="login-disclaimer" />
   </div>
 </template>
 
@@ -139,6 +141,7 @@ function toggleMode() {
 .login-page {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
@@ -293,5 +296,10 @@ function toggleMode() {
 
 .consent-link:hover {
   color: var(--ink, #2d3436);
+}
+
+.login-disclaimer {
+  width: 100%;
+  max-width: 960px;
 }
 </style>
