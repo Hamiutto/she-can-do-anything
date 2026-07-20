@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import LandingSplash from '../components/LandingSplash.vue'
 import LandingHero from '../components/LandingHero.vue'
 import PersonDetail from '../components/PersonDetail.vue'
 import PersonGrid from '../components/PersonGrid.vue'
@@ -75,6 +76,7 @@ watch(() => route.hash, scrollIfNeeded)
 </script>
 
 <template>
+  <LandingSplash />
   <LandingHero />
   <SheIsSearchSection @tags-change="selectedTags = $event" />
   <section class="section" id="results">

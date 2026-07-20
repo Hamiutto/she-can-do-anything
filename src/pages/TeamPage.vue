@@ -13,8 +13,10 @@ const activeTab = ref('team')
 <template>
   <section class="page-section section is-active">
     <div class="page-card team-page-card">
-      <h2>我们是谁，为什么做这件事</h2>
-      <p class="lead">5 个人，一个共同目标：让女性的真实经验被看见、被链接、被回应。下面三个入口，帮你快速认识我们。</p>
+      <h2>我们是谁</h2>
+      <p class="lead">【她行】she can  -项目设计-美美与共强女战队（5人）</p>
+      <h2>我们为什么做这件事</h2>
+      <p class="lead">【让更多女性打开眼界，也同时被看见，让女性的每一步都算数</p>
 
       <!-- Tab bar -->
       <div class="team-tabs">
@@ -55,32 +57,33 @@ const activeTab = ref('team')
       <!-- Business Value -->
       <div v-show="activeTab === 'value'" class="team-content">
         <div class="value-formula">
-          <div class="formula-title">我们认为的商业模式</div>
-          <div class="formula-body">真实女性样本 × AI 同频匹配 × 付费轻咨询 × 回声沉淀 = 一个可持续的女性经验社区</div>
+          <div class="formula-title">有温度+有价值+有交互+有闭环的商业模式</div>
+          <div class="formula-body"><b>真实女性样本 X 同频匹配 X 有效付费咨询X知识沉淀 = 一个有复利的女性互助社群</b></div>
         </div>
 
         <div class="value-section">
+          
           <div class="value-heading">
-            <h3>如果冷启动 1,000 名目标用户，会发生什么？</h3>
+            <h3>从0到100个真实用户，验证商业模式</h3>
           </div>
           <div class="value-grid">
             <div class="value-item">
-              <div class="value-num">5%</div>
-              <div class="value-label">付费提问转化率</div>
-              <h4>50 人付费</h4>
-              <p>每 1,000 名浏览用户中，约 5% 愿意为具体困境向过来人付费提问。</p>
+              <div class="value-num">0-100</div>
+              <div class="value-label">第一阶段冷启动目标</div>
+              <h4>先验证，再放量</h4>
+              <p>不追求1,000人注册，而是先找到100位真正愿意提问、愿意回答的女性，验证PMF。</p>
             </div>
             <div class="value-item">
-              <div class="value-num">¥99</div>
-              <div class="value-label">单次轻咨询均价</div>
-              <h4>入门档定价</h4>
-              <p>低于主流咨询价格，降低女性首次付费决策门槛。</p>
+              <div class="value-num">¥9.9~99</div>
+              <div class="value-label">根据活跃度及有效帮助度设置阶梯轻咨询价</div>
+              <h4>阶梯定价</h4>
+              <p>有效咨询价格亲民，降低女性首次付费决策门槛。</p>
             </div>
             <div class="value-item">
-              <div class="value-num">20%</div>
-              <div class="value-label">平台服务费</div>
-              <h4>首月平台收入</h4>
-              <p>50 次 × ¥99 × 20% = <strong>¥990</strong>，验证最小付费闭环。</p>
+              <div class="value-num">1-3%</div>
+              <div class="value-label">付费转化率假设</div>
+              <h4>行业参考区间</h4>
+              <p>参考国内知识付费/轻咨询平台平均转化水平。若100人中1-3人付费，即证明付费意愿存在。</p>
             </div>
             <div class="value-item">
               <div class="value-num">∞</div>
@@ -90,7 +93,7 @@ const activeTab = ref('team')
             </div>
           </div>
         </div>
-
+<center><p>*以上数据均为基于公开行业信息的假设推演，用于验证商业逻辑，不代表当前真实运营数据。</p></center>
         <div class="value-section">
           <div class="value-heading">
             <h3>三个阶段，每个阶段都有收入</h3>
@@ -98,20 +101,20 @@ const activeTab = ref('team')
           </div>
           <div class="value-phases">
             <div class="phase-card">
-              <h4>短期 · 0-6 个月</h4>
-              <p class="text-muted">上线 21 位真实样本卡，跑通「提问 → 匹配 → 回答」闭环。收入来自单次付费提问：用户付费 ¥99，回答者获得 ¥79，平台抽成 ¥20。</p>
+              <h4>验证期·0-3个月</h4>
+              <p class="text-muted">跑通“提问一匹配一回答一感谢”的最小闭环。免费，先收集真实问题。验证两件事:1女性是否愿意在这里提问;2过来人是否愿意回答。</p>
             </div>
             <div class="phase-card">
               <h4>中期 · 6-18 个月</h4>
-              <p class="text-muted">推出主题小社群（¥199/月）和企业女性成长内训（¥5,000/场）。用 21 位评委网络做冷启动，降低获客成本。</p>
+              <p class="text-muted">推出主题小社群(¥99/月)和女性成长内训工作坊(¥5,00/场)。用21位评委网络做冷启动，降低获客成本。</p>
             </div>
             <div class="phase-card">
               <h4>长期 · 18 个月+</h4>
-              <p class="text-muted">形成高净值女性社区。收入来源：品牌共创、内容出版/播客、匿名化趋势数据报告。护城河是真实信任关系。</p>
+              <p class="text-muted">形成高净值女性社区。收入来源:品牌共创、内容出版/播客、社群、匿名化趋势数据报告。护城河是真实信任关系。</p>
             </div>
             <div class="phase-card">
               <h4>为什么能跑通？</h4>
-              <p class="text-muted">真实经验稀缺、回答者自带流量、平台只撮合不生产。AI 负责匹配，人负责共情，两者各司其职。</p>
+              <p class="text-muted">AI问答盛行，但真实经验稀缺、回答者自带流量、平台只撮合降低自持生产。平台负责匹配，人类负责共情，实现双向奔赴及有效共赢。</p>
             </div>
           </div>
         </div>
@@ -121,7 +124,7 @@ const activeTab = ref('team')
       <div v-show="activeTab === 'inspiration'" class="team-content">
         <div class="team-heading">
           <h3>我们的灵感，来自哪里</h3>
-          <p class="text-muted">每一个功能都不是凭空想象，而是从真实的人和理论里长出来的。</p>
+          <p class="text-muted">真洞察·真经历·真痛点。因为自己淋过雨，所以想给她人撑把伞。</p>
         </div>
         <div class="inspire-grid">
           <div v-for="card in inspirationCards" :key="card.title" class="inspire-card">
