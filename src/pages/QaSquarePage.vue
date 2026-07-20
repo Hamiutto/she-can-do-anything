@@ -12,7 +12,7 @@
           <strong>我来解答</strong>
           <p>你的真实经历和感悟，是别人成长的阶梯和一扇窗。</p>
         </article>
-        <article class="qa-card">
+        <article class="qa-card qa-card--interactive" @click="goThanks">
           <strong>我想感谢</strong>
           <p>爱出者爱返，福往者福来。</p>
         </article>
@@ -264,6 +264,10 @@ function closeModal() {
 
 function goAnswer() {
   router.push('/particle')
+}
+
+function goThanks() {
+  router.push('/thanks')
 }
 
 async function submitQuestion() {

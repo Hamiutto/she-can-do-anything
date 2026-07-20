@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage.vue'
 import FiveTimesPage from './pages/FiveTimesPage.vue'
 import LifeTemplatesPage from './pages/LifeTemplatesPage.vue'
 import QaSquarePage from './pages/QaSquarePage.vue'
+import ThanksPage from './pages/ThanksPage.vue'
 import LoginPage from './pages/LoginPage.vue'
 import ProfilePage from './pages/ProfilePage.vue'
 import ProfilePublicPage from './pages/ProfilePublicPage.vue'
@@ -16,6 +17,7 @@ const router = createRouter({
     { path: '/life-templates', name: 'life-templates', component: LifeTemplatesPage },
     { path: '/qa-square', name: 'qa-square', component: QaSquarePage },
     { path: '/particle', name: 'particle', component: () => import('./pages/ParticlePage.vue') },
+    { path: '/thanks', name: 'thanks', component: ThanksPage },
     { path: '/login', name: 'login', component: LoginPage },
     { path: '/profile', name: 'profile', component: ProfilePage, meta: { requiresAuth: true } },
     { path: '/profile/:userId', name: 'profile-public', component: ProfilePublicPage },
