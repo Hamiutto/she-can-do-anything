@@ -47,9 +47,9 @@ async function handleLogout() {
 
 <template>
   <header class="topbar">
-    <button class="brand" type="button" @click="goHome">她是SHE IS<span>____</span></button>
+    <button class="brand" type="button" @click="goHome">她行SHE CAN<span>____</span></button>
     <nav class="main-nav" aria-label="主导航">
-      <button class="nav-link" :class="{ 'is-active': activeKey === 'sheis' }" type="button" @click="goSheIs">She is</button>
+      <button class="nav-link" :class="{ 'is-active': activeKey === 'sheis' }" type="button" @click="goSheIs">She can</button>
       <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'five-times' }" to="/five-times">五种时间</RouterLink>
       <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'life-templates' }" to="/life-templates">人生样本</RouterLink>
       <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'qa-square' }" to="/qa-square">问问她</RouterLink>

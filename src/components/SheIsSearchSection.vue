@@ -55,7 +55,7 @@ function search() {
 <template>
   <section class="hero" id="sheis">
     <div class="hero-copy">
-      <span class="eyebrow">SHE IS ____</span>
+      <span class="eyebrow">SHE CAN ____</span>
       <h2>问问那个<br><span class="typing-word">{{ typingWords[typingIndex] }}</span> 她</h2>
       <p class="lead">选择你感兴趣的关键词:<br>例：职业、城市、爱好、困惑，都可能牵出一段真实经验，找到解答。</p>
       <TimeEntryChips @select="goFiveTimes" />
