@@ -26,7 +26,13 @@ function pathParts(req) {
   const raw = req.query.path
   if (Array.isArray(raw)) return raw
   if (typeof raw === 'string') return raw.split('/').filter(Boolean)
-  return []
+
+  const fallback = new URL(req.url || '/', 'http://localhost')
+    .pathname
+    .split('/')
+    .filter(Boolean)
+
+  return fallback[0] === 'api' ? fallback.slice(1) : fallback
 }
 
 function normalizeQuestion(row) {
