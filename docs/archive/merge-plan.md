@@ -65,7 +65,7 @@ she-can-do-anything-main/          # 目标项目（合并后的完整项目）
 ├── vite.config.js                 # 端口 8887 + 代理到后端 3001
 ├── .gitignore
 ├── she-is-enhanced.html
-├── README-ANALYSIS.md
+├── docs/archive/old-readme-analysis.md
 │
 ├── backend/                       # ← 从 codingLady 复制过来
 │   ├── package.json
