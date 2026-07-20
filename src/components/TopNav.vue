@@ -15,7 +15,8 @@ const unreadNotificationCount = ref(0)
 const activeKey = computed(() => {
   if (route.path === '/five-times') return 'five-times'
   if (route.path === '/life-templates') return 'life-templates'
-  if (route.path === '/qa-square') return 'qa-square'
+  if (route.path === '/qa-square' || route.path === '/thanks') return 'qa-square'
+  if (route.path === '/team') return 'team'
   return 'sheis'
 })
 
@@ -52,6 +53,7 @@ async function handleLogout() {
       <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'five-times' }" to="/five-times">五种时间</RouterLink>
       <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'life-templates' }" to="/life-templates">人生样本</RouterLink>
       <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'qa-square' }" to="/qa-square">问问她</RouterLink>
+      <RouterLink class="nav-link" :class="{ 'is-active': activeKey === 'team' }" to="/team">团队思考</RouterLink>
     </nav>
     <div class="nav-actions">
       <button class="icon-button notice-button" type="button" aria-label="消息提醒" @click="isNoticeOpen = !isNoticeOpen">
